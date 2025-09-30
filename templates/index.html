@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - El Mundo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light p-4">
+    <div class="container">
+        <h1 class="mb-4 text-center">Noticias de El Mundo</h1>
+
+        <form class="row g-2 mb-4" method="get" action="/">
+            <div class="col-md-6">
+                <input type="text" name="q" value="{{ q|e }}" class="form-control" placeholder="Buscar por texto...">
+            </div>
+            <div class="col-md-3">
+                <select name="author" class="form-select">
+                    <option value="">Filtrar por autor / sección (todos)</option>
+                    {% for a in authors %}
+                    <option value="{{ a|e }}" {% if a==author %}selected{% endif %}>{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button class="btn btn-primary w-50" type="submit">Buscar</button>
+                <a href="/scrape" class="btn btn-secondary w-50">Actualizar</a>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle shadow-sm rounded">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Título</th>
+                        <th>Fecha</th>
+                        <th>Autor/Sección</th>
+                        <th>Detectado</th>
+                        <th>Enlace</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{ row['title'] }}</td>
+                        <td>{{ row['date'] or '' }}</td>
+                        <td>{{ row['author_section'] or '' }}</td>
+                        <td>{{ row['detected_keyword'] or '' }}</td>
+                        <td><a href="{{ row['link'] }}" target="_blank" class="btn btn-sm btn-outline-primary">Abrir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if rows|length == 0 %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No hay noticias disponibles.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
