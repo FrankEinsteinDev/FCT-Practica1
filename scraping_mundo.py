@@ -105,10 +105,10 @@ def scrape_elmundo_rss(max_items=MAX_NEWS):
     db = get_db()
     collected = 0
 
-    URL_RSS = "https://www.elmundo.es/rss/portada.xml"
+    rss_url = "https://www.elmundo.es/rss/portada.xml"
 
     try:
-        r = requests.get(URL_RSS, timeout=10)
+        r = requests.get(rss_url, timeout=10)
         r.raise_for_status()
     except requests.exceptions.RequestException:
         return 0
