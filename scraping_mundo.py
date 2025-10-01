@@ -170,7 +170,8 @@ def index():
         params.append(author)
     if where:
         sql += ' WHERE ' + ' AND '.join(where)
-    sql += ' ORDER BY id DESC'
+    sql += ' ORDER BY id DESC LIMIT ?'
+    params.append(MAX_NEWS)
 
     cur = db.execute(sql, params)
     rows = cur.fetchall()
